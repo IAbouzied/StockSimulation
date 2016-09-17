@@ -1,19 +1,15 @@
 class DataPoint:
     'A collection of data for a stock on a particular day'
-    n = 0
-    average = 0
 
     def __init__(self, name, date, open, high, low, close, volume):
-        self.name = name
+        self.name = str(name)
         self.date = str(date)
-        self.open = open
-        self.high = high
-        self.low = low
-        self.close = close
-        self.volume = volume
-        DataPoint.n += 1
-        DataPoint.average = (DataPoint.average + self.close) / DataPoint.n
+        self.open = float(open)
+        self.high = float(high)
+        self.low = float(low)
+        self.close = float(close)
+        self.volume = float(volume)
 
     def __repr__(self):
-        return str(self.name + " " + self.date + " " + self.open + " " + self.high + " " + self.low + " " + self.close + " " + self.volume)
+        return str(self.name + " " + self.date + " " + str(self.open) + " " + str(self.high) + " " + str(self.low) + " " + str(self.close) + " " + str(self.volume))
     
