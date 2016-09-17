@@ -11,19 +11,19 @@ class DataPoint:
         self.volume = volume
 
     def name(self):
-        return name
+        return self.name
     def date(self):
-        return date
+        return self.date
     def theOpen(self):
-        return open
+        return self.open
     def high(self):
-        return high
+        return self.high
     def low(self):
-        return low
+        return self.low
     def close(self):
-        return close
+        return self.close
     def volume(self):
-        return volume
-    def __str__(self):
+        return self.volume
+    def __repr__(self):
         return str(self.name + " " + self.date + " " + self.open + " " + self.high + " " + self.low + " " + self.close + " " + self.volume)
     

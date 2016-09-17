@@ -16,6 +16,7 @@ for row in csv_AAPL:
     theClose = row[4]
     theVolume = row[5]
     AAPLDataPoints.append(DataPoint(theName, theDate, theOpen, theHigh, theLow, theClose, theVolume))
-    
-print AAPLDataPoints[5]    
+
+#Testing
+print AAPLDataPoints[5].name   
         
