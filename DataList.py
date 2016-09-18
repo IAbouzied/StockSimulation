@@ -6,6 +6,8 @@ class DataList:
 
     def __init__(self, fileLocation, name):
         self.stockCount = 0
+        self.stockValue = 0
+        self.amountSpent = 0
         self.day = 0
         self.last90 = []
         self.last30 = []
@@ -33,6 +35,7 @@ class DataList:
         self.volume = self.DataPoints[self.day].volume
         self.last15V.append(self.volume)
         self.last90.append(self.stockCost)
+        self.stockValue = self.stockCost * self.stockCount
 
     def __getitem__(self, key):
         return self.DataPoints[key]
@@ -40,6 +43,7 @@ class DataList:
     def nextDay(self):
         self.day += 1
         self.stockCost = self.DataPoints[self.day].close
+        self.stockValue = self.stockCost * self.stockCount
         self.volume = self.DataPoints[self.day].volume
         self.last90.append(self.stockCost)
         self.last30.append(self.stockCost)

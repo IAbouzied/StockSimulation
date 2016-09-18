@@ -12,10 +12,13 @@ class StockBroker:
         self.day = 0
 
     def buy(self, x, stockName):
+        if x == 0:
+            return
         cost = self.stocks[stockName].stockCost * x + self.fees
         if (cost <= self.balance) and (x != 0):
             self.balance -= cost
             self.stocks[stockName].stockCount += x
+            self.stocks[stockName].amountSpent += cost
             print "Purchased " + str(x) + " stocks for a total of " + str(cost)
         else:
             x = int(math.floor(self.balance / self.stocks[stockName].stockCost))
@@ -25,21 +28,25 @@ class StockBroker:
             cost = x * self.stocks[stockName].stockCost + self.fees
             self.balance -=  cost
             self.stocks[stockName].stockCount += x
+            self.stocks[stockName].amountSpent += cost
             print "Not enough funds, instead purchased " + str(x) + " stocks for a total of " + str(cost)
         
         print "The stock count is now " + str(self.stocks[stockName].stockCount)
-        print "Current balance is " + str(self.balance)
+        print "Current balance is " + str(self.balance) + "\n"
 
     def sell(self, x, stockName):
+        if x == 0:
+            return
         if x > self.stocks[stockName].stockCount:
             x = self.stocks[stockName].stockCount
         profit = x * self.stocks[stockName].stockCost - self.fees
         self.balance += profit
         self.stocks[stockName].stockCount -= x
+        self.stocks[stockName].amountSpent -= profit
 
-        print "Sold " + str(x) + " stocks for a total of " + str(profit)
+        print "Sold " + str(x) + " stocks for a total of " + str(profit) + " on " + self.stocks[stockName].DataPoints[self.day].date
         print "The stock count is now " + str(self.stocks[stockName].stockCount)
-        print "Current balance is " + str(self.balance)
+        print "Current balance is " + str(self.balance) + "\n"
 
     def addStock(self, filename, name):
         self.stocks[name] = DataList(filename, name)
