@@ -43,9 +43,19 @@ class StockBroker:
 
     def addStock(self, filename, name):
         self.stocks[name] = DataList(filename, name)
-        
+
+    def nextDay(self):
+        self.day += 1
+        for stock in self.stocks:
+            self.stocks[stock].nextDay()
+            print stock + " MA15: "+ str(self.stocks[stock].MA15) + " MA30: "+  str(self.stocks[stock].MA30) + " MA90: "+  str(self.stocks[stock].MA90)
+            
+x = StockBroker(1000, 15)
+x.addStock("AAPL.csv", "Apple")
+for y in range(100):
+    x.nextDay()        
         
             
-            
+
             
         

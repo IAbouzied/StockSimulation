@@ -6,6 +6,13 @@ class DataList:
 
     def __init__(self, fileLocation, name):
         self.stockCount = 0
+        self.day = 0
+        self.last90 = []
+        self.last30 = []
+        self.last15 = []
+        self.MA15 = 0
+        self.MA30 = 0
+        self.MA90 = 0
         theCSV = open(fileLocation)
         theReader = csv.reader(theCSV)
         self.DataPoints = []
@@ -18,9 +25,26 @@ class DataList:
             theClose = row[4]
             theVolume = row[5]
             self.DataPoints.append(DataPoint(theName, theDate, theOpen, theHigh, theLow, theClose, theVolume))
-        self.stockCost = self.DataPoints[0].close
+        self.stockCost = self.DataPoints[self.day].close
+        self.last90.append(self.stockCost)
+
     def __getitem__(self, key):
         return self.DataPoints[key]
 
-    def setDay(self, x):
-        self.stockCost = self.DataPoints[x].close
+    def nextDay(self):
+        self.day += 1
+        self.stockCost = self.DataPoints[self.day].close
+        self.last90.append(self.stockCost)
+        self.last30.append(self.stockCost)
+        self.last15.append(self.stockCost)
+        if len(self.last90) > 90:
+                self.last90.pop(0)
+        if len(self.last30) > 30:
+                self.last90.pop(0)
+        if len(self.last15) > 15:
+                self.last15.pop(0)
+        self.MA90 = sum(self.last90) / len(self.last90)
+        self.MA30 = sum(self.last30) / len(self.last30)
+        self.MA15 = sum(self.last15) / len(self.last15)
+        
+        
