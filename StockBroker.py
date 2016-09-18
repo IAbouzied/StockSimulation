@@ -48,18 +48,6 @@ class StockBroker:
         self.day += 1
         for stock in self.stocks:
             self.stocks[stock].nextDay()
-            
-            
-x = StockBroker(100000, 15)
-x.addStock("NFLX.csv", "Netflix")
-for y in range(5):
-    x.nextDay()
-    print x.stocks["Netflix"].momentum
-    print x.stocks["Netflix"].last15[:6]
-    print "\n"
-    print x.stocks["Netflix"].volumeMomentum
-    print x.stocks["Netflix"].last15V[:6]
-    print "\n\n"
     
         
             
