@@ -25,6 +25,7 @@ class DataList:
             theClose = row[4]
             theVolume = row[5]
             self.DataPoints.append(DataPoint(theName, theDate, theOpen, theHigh, theLow, theClose, theVolume))
+        self.DataPoints.reverse()
         self.stockCost = self.DataPoints[self.day].close
         self.last90.append(self.stockCost)
 
