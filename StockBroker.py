@@ -13,7 +13,7 @@ class StockBroker:
 
     def buy(self, x, stockName):
         cost = self.stocks[stockName].stockCost * x + self.fees
-        if (cost <= self.balance):
+        if (cost <= self.balance) and (x != 0):
             self.balance -= cost
             self.stocks[stockName].stockCount += x
             print "Purchased " + str(x) + " stocks for a total of " + str(cost)
@@ -48,12 +48,20 @@ class StockBroker:
         self.day += 1
         for stock in self.stocks:
             self.stocks[stock].nextDay()
-            print stock + " MA15: "+ str(self.stocks[stock].MA15) + " MA30: "+  str(self.stocks[stock].MA30) + " MA90: "+  str(self.stocks[stock].MA90)
             
-x = StockBroker(1000, 15)
-x.addStock("AAPL.csv", "Apple")
+            
+x = StockBroker(100000, 15)
+x.addStock("AAPL.csv", "Netflix")
 for y in range(100):
-    x.nextDay()        
+    x.nextDay()
+    if (x.stocks["Netflix"].MA15 > x.stocks["Netflix"].MA30 * 1.02):
+        budget = x.balance / 10
+        buyAmount = math.floor(budget / x.stocks["Netflix"].stockCost)
+        x.buy(buyAmount, "Netflix")
+        print x.stocks["Netflix"].DataPoints[x.day].date + " MA15: "+ str(x.stocks["Netflix"].MA15) + " MA30: "+  str(x.stocks["Netflix"].MA30) + " MA90: "+  str(x.stocks["Netflix"].MA90) + "\n"
+    elif (x.stocks["Netflix"].stockCount > 0):
+        x.sell(x.stocks["Netflix"].stockCount, "Netflix")
+        print x.stocks["Netflix"].DataPoints[x.day].date + " MA15: "+ str(x.stocks["Netflix"].MA15) + " MA30: "+  str(x.stocks["Netflix"].MA30) + " MA90: "+  str(x.stocks["Netflix"].MA90) + "\n"
         
             
 
