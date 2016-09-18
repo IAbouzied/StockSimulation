@@ -51,17 +51,12 @@ class StockBroker:
             
             
 x = StockBroker(100000, 15)
-x.addStock("AAPL.csv", "Netflix")
-for y in range(100):
+x.addStock("NFLX.csv", "Netflix")
+for y in range(30):
     x.nextDay()
-    if (x.stocks["Netflix"].MA15 > x.stocks["Netflix"].MA30 * 1.02):
-        budget = x.balance / 10
-        buyAmount = math.floor(budget / x.stocks["Netflix"].stockCost)
-        x.buy(buyAmount, "Netflix")
-        print x.stocks["Netflix"].DataPoints[x.day].date + " MA15: "+ str(x.stocks["Netflix"].MA15) + " MA30: "+  str(x.stocks["Netflix"].MA30) + " MA90: "+  str(x.stocks["Netflix"].MA90) + "\n"
-    elif (x.stocks["Netflix"].stockCount > 0):
-        x.sell(x.stocks["Netflix"].stockCount, "Netflix")
-        print x.stocks["Netflix"].DataPoints[x.day].date + " MA15: "+ str(x.stocks["Netflix"].MA15) + " MA30: "+  str(x.stocks["Netflix"].MA30) + " MA90: "+  str(x.stocks["Netflix"].MA90) + "\n"
+    print x.stocks["Netflix"].momentum
+    print x.stocks["Netflix"].last15[:3]
+    
         
             
 

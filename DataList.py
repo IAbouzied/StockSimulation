@@ -13,6 +13,7 @@ class DataList:
         self.MA15 = 0
         self.MA30 = 0
         self.MA90 = 0
+        self.momentum = 0
         theCSV = open(fileLocation)
         theReader = csv.reader(theCSV)
         self.DataPoints = []
@@ -47,5 +48,17 @@ class DataList:
         self.MA90 = sum(self.last90) / len(self.last90)
         self.MA30 = sum(self.last30) / len(self.last30)
         self.MA15 = sum(self.last15) / len(self.last15)
+        reverseLast15 = self.last15
+        reverseLast15.reverse()
+        for x in reverseLast15[1:10]:
+            lastx = self.last15[0]
+            differences = []
+            differences.append(x - lastx)
+            lastx = x
+            if differences[0] == 0:
+                differences.pop(0)
+                return
+            self.momentum = sum(differences) / len(differences)
+            
         
         
