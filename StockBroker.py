@@ -19,7 +19,8 @@ class StockBroker:
             self.balance -= cost
             self.stocks[stockName].stockCount += x
             self.stocks[stockName].amountSpent += cost
-            print "Purchased " + str(x) + " stocks for a total of " + str(cost)
+            self.stocks[stockName].stockValue = self.stocks[stockName].stockCount * self.stocks[stockName].stockCost
+            print "Purchased " + str(x) + " " + stockName + " stocks for a total of " + str(cost) + " on " + self.stocks[stockName].DataPoints[self.day].date
         else:
             x = int(math.floor(self.balance / self.stocks[stockName].stockCost))
             if (x <= 0):
@@ -29,7 +30,8 @@ class StockBroker:
             self.balance -=  cost
             self.stocks[stockName].stockCount += x
             self.stocks[stockName].amountSpent += cost
-            print "Not enough funds, instead purchased " + str(x) + " stocks for a total of " + str(cost)
+            self.stocks[stockName].stockValue = self.stocks[stockName].stockCount * self.stocks[stockName].stockCost
+            print "Not enough funds, instead purchased " + str(x) + " " + stockName + " stocks for a total of " + str(cost) + " on " + self.stocks[stockName].DataPoints[self.day].date
         
         print "The stock count is now " + str(self.stocks[stockName].stockCount)
         print "Current balance is " + str(self.balance) + "\n"
@@ -43,8 +45,9 @@ class StockBroker:
         self.balance += profit
         self.stocks[stockName].stockCount -= x
         self.stocks[stockName].amountSpent -= profit
+        self.stocks[stockName].stockValue = self.stocks[stockName].stockCount * self.stocks[stockName].stockCost
 
-        print "Sold " + str(x) + " stocks for a total of " + str(profit) + " on " + self.stocks[stockName].DataPoints[self.day].date
+        print "Sold " + str(x) + " " + stockName +" stocks for a total of " + str(profit) + " on " + self.stocks[stockName].DataPoints[self.day].date
         print "The stock count is now " + str(self.stocks[stockName].stockCount)
         print "Current balance is " + str(self.balance) + "\n"
 

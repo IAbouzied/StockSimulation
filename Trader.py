@@ -4,7 +4,9 @@ import math
 class Trader:
     'AI that comprehends data and initiates trades'
 
-    def __init__(self, balance, fees):
+    def __init__(self, balance, fees, cutlosses, getprofit):
+        self.cutlosses = cutlosses
+        self.getprofit = getprofit
         self.lastMomentum = {}
         self.lastMA15 = {}
         self.lastMA30 = {}
@@ -22,9 +24,10 @@ class Trader:
         self.broker.addStock(filename, name)
 
     def think(self, stock, lastday, now):
-        if (stock.stockCount != 0) and ((stock.stockValue >= stock.amountSpent * 1.05) or (stock.stockValue <= stock.amountSpent * 0.98)):
-            self.sell(stock.stockCount, self.broker.stocks.keys()[self.broker.stocks.values().index(stock)])
-        elif (lastday < now) and (now > 0):
+        if (stock.stockCount != 0):
+            if ((stock.stockValue >= stock.amountSpent * self.getprofit) or (stock.stockValue <= stock.amountSpent * self.cutlosses)):
+                self.sell(stock.stockCount, self.broker.stocks.keys()[self.broker.stocks.values().index(stock)])
+        elif (lastday < now) and (now > 1):
             self.buy(math.floor(self.broker.balance / (stock.stockCost * 10)), self.broker.stocks.keys()[self.broker.stocks.values().index(stock)])
 
     def nextDay(self):
@@ -38,9 +41,6 @@ class Trader:
         for stock in self.broker.stocks:
             self.think(self.broker.stocks[stock], self.lastMomentum[stock], self.broker.stocks[stock].momentum)
 
-        
-
-gary = Trader(10000, 15)
-gary.addStock("AAPL.csv", "Apple")
-for x in range(100):
-    gary.nextDay()
+    def getOut(self):
+        for stock in self.broker.stocks:
+            self.broker.sell(self.broker.stocks[stock].stockCount, stock) 
