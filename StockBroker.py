@@ -10,6 +10,7 @@ class StockBroker:
         self.fees = fees
         self.stockCount = 0
         self.day = 0
+        self.trades = 0
 
     def buy(self, x, stockName):
         if x == 0:
@@ -20,6 +21,7 @@ class StockBroker:
             self.stocks[stockName].stockCount += x
             self.stocks[stockName].amountSpent += cost
             self.stocks[stockName].stockValue = self.stocks[stockName].stockCount * self.stocks[stockName].stockCost
+            self.trades += 1
             print "Purchased " + str(x) + " " + stockName + " stocks for a total of " + str(cost) + " on " + self.stocks[stockName].DataPoints[self.day].date
         else:
             x = int(math.floor(self.balance / self.stocks[stockName].stockCost))
@@ -31,6 +33,7 @@ class StockBroker:
             self.stocks[stockName].stockCount += x
             self.stocks[stockName].amountSpent += cost
             self.stocks[stockName].stockValue = self.stocks[stockName].stockCount * self.stocks[stockName].stockCost
+            self.trades += 1
             print "Not enough funds, instead purchased " + str(x) + " " + stockName + " stocks for a total of " + str(cost) + " on " + self.stocks[stockName].DataPoints[self.day].date
         
         print "The stock count is now " + str(self.stocks[stockName].stockCount)

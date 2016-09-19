@@ -49,4 +49,8 @@ class Trader:
 
     def getOut(self):
         for stock in self.broker.stocks:
-            self.broker.sell(self.broker.stocks[stock].stockCount, stock) 
+            self.broker.sell(self.broker.stocks[stock].stockCount, stock)
+
+    def __repr__(self):
+        return (str(self.broker.balance) + " " + str(self.broker.fees) + " " + str(self.cutlosses) + " " + str(self.getprofit) + " " +
+                str(self.minimumM) + " " + str(self.risk) + " " + str(self.MA15Lead) + " " + str(self.MA30Lead))
