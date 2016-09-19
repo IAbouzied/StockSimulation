@@ -8,6 +8,7 @@ class Evolution:
         self.traders = []
         self.population = population
         self.firstGeneration()
+        self.tradeYear()
 
     def firstGeneration(self):
         for x in range(self.population):
@@ -81,6 +82,7 @@ class Evolution:
         for trader in self.traders:
             for x in range(245):
                 trader.nextDay()
+            trader.getOut()
             
 
     def fitness(self):
@@ -94,6 +96,11 @@ class Evolution:
                 if (trader.broker.balance > mostFit.broker.balance) and (trader.broker.trades != 0):
                     mostFit = trader
         return mostFit
+
+    def evolveCycle(self, mutationrate):
+        self.newGeneration(mutationrate, self.fitness())
+        self.tradeYear()
+        
         
         
             
