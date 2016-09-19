@@ -1,6 +1,6 @@
 from Trader import Trader
 
-gary = Trader(10000, 15, 0.95, 1.03)
+gary = Trader(10000, 15, .90, 1.05, -1, 10, 0.5, 0.5)
 gary.addStock("AAPL.csv", "Apple")
 gary.addStock("ATVI.csv", "Activision")
 gary.addStock("FB.csv", "Facebook")

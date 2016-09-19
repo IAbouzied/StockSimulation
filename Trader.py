@@ -4,7 +4,11 @@ import math
 class Trader:
     'AI that comprehends data and initiates trades'
 
-    def __init__(self, balance, fees, cutlosses, getprofit):
+    def __init__(self, balance, fees, cutlosses, getprofit, minimumM, risk, MA15Lead, MA30Lead):
+        self.MA15Lead = MA15Lead
+        self.MA30Lead = MA30Lead
+        self.risk = risk
+        self.minimumM = minimumM
         self.cutlosses = cutlosses
         self.getprofit = getprofit
         self.lastMomentum = {}
@@ -24,11 +28,13 @@ class Trader:
         self.broker.addStock(filename, name)
 
     def think(self, stock, lastday, now):
+        stockname = self.broker.stocks.keys()[self.broker.stocks.values().index(stock)]
         if (stock.stockCount != 0):
             if ((stock.stockValue >= stock.amountSpent * self.getprofit) or (stock.stockValue <= stock.amountSpent * self.cutlosses)):
-                self.sell(stock.stockCount, self.broker.stocks.keys()[self.broker.stocks.values().index(stock)])
-        elif (lastday < now) and (now > 1):
-            self.buy(math.floor(self.broker.balance / (stock.stockCost * 10)), self.broker.stocks.keys()[self.broker.stocks.values().index(stock)])
+                self.sell(stock.stockCount, stockname)
+        elif ((lastday < now) and (now > self.minimumM) and (self.broker.stocks[stockname].MA15 > self.broker.stocks[stockname].MA30 + self.MA15Lead) and
+              (self.broker.stocks[stockname].MA30 > self.broker.stocks[stockname].MA90 + self.MA30Lead)):
+            self.buy(math.floor(self.broker.balance / (stock.stockCost * self.risk)), stockname)
 
     def nextDay(self):
         for stock in self.broker.stocks:
