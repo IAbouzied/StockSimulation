@@ -2,7 +2,7 @@ from StockBroker import StockBroker
 import math
 
 class Trader:
-    'AI that comprehends data and initiates trades'
+    'Comprehends data and initiates trades based on parameters given'
 
     def __init__(self, balance, fees, cutlosses, getprofit, minimumM, risk, MA15Lead, MA30Lead):
         self.MA15Lead = MA15Lead
@@ -18,20 +18,24 @@ class Trader:
         self.lastVMomentum = {}
         self.broker = StockBroker(balance, fees)
 
-    def buy(self, x, stockName):
-        self.broker.buy(x, stockName)
+    def buy(self, purchaseAmount, stockName):
+        self.broker.buy(purchaseAmount, stockName)
 
-    def sell(self, x, stockName):
-        self.broker.sell(x, stockName)
+    def sell(self, sellAmount, stockName):
+        self.broker.sell(sellAmount, stockName)
 
     def addStock(self, filename, name):
         self.broker.addStock(filename, name)
 
     def think(self, stock, lastday, now):
         stockname = self.broker.stocks.keys()[self.broker.stocks.values().index(stock)]
+
+        #Selling requirements
         if (stock.stockCount != 0):
+            #Sell if wanted profits have been earned or need to cut losses
             if ((stock.stockValue >= stock.amountSpent * self.getprofit) or (stock.stockValue <= stock.amountSpent * self.cutlosses)):
                 self.sell(stock.stockCount, stockname)
+        #Buying requirements
         elif ((lastday < now) and (now > self.minimumM) and (self.broker.stocks[stockname].MA15 > self.broker.stocks[stockname].MA30 + self.MA15Lead) and
               (self.broker.stocks[stockname].MA30 > self.broker.stocks[stockname].MA90 + self.MA30Lead)):
             self.buy(math.floor(self.broker.balance / (stock.stockCost * self.risk)), stockname)
